@@ -1,0 +1,64 @@
+import os
+import asyncio
+from aiogram import Bot, Dispatcher, types
+from aiogram.filters import Command
+from yt_dlp import YoutubeDL
+from ShazamAPI import Shazam
+
+BOT_TOKEN = "8732653374:AAEWcorFjqEJTJBNsTkPgLPUfruNZrN9wv8"
+
+bot = Bot(token=BOT_TOKEN)
+dp = Dispatcher()
+
+YDL_OPTIONS = {
+    'format': 'best',
+    'outtmpl': '%(id)s.%(ext)s',
+    'max_filesize': 50 * 1024 * 1024,
+}
+
+@dp.message(Command("start"))
+async def start_cmd(message: types.Message):
+    await message.answer("Salom! Video havolasini yuboring (Instagram / YouTube).")
+
+@dp.message()
+async def process_video(message: types.Message):
+    url = message.text
+    if "instagram.com" in url or "youtube.com" in url or "youtu.be" in url:
+        status_msg = await message.answer("⏳ Video yuklanmoqda...")
+        try:
+            with YoutubeDL(YDL_OPTIONS) as ydl:
+                info = ydl.extract_info(url, download=True)
+                file_path = ydl.prepare_filename(info)
+
+            await status_msg.edit_text("🔍 Musiqa qidirilmoqda...")
+            
+            caption_text = "✅ Video yuklab olindi!"
+            try:
+                with open(file_path, 'rb') as f:
+                    shazam = Shazam(f.read())
+                    recognize_generator = shazam.recognizeSong()
+                    for offset, match in recognize_generator:
+                        if match.get('track'):
+                            title = match['track']['title']
+                            artist = match['track']['subtitle']
+                            caption_text = f"🎵 Musiqa: {artist} - {title}"
+                            break
+            except Exception:
+                pass
+
+            video_file = types.FSInputFile(file_path)
+            await message.answer_video(video=video_file, caption=caption_text)
+
+            if os.path.exists(file_path):
+                os.remove(file_path)
+            await status_msg.delete()
+        except Exception:
+            await status_msg.edit_text("❌ Xatolik bo'ldi yoki video hajmi 50MB dan katta.")
+    else:
+        await message.answer("To'g'ri havola kiriting.")
+
+async def main():
+    await dp.start_polling(bot)
+
+if __name__ == "__main__":
+    asyncio.run(main())
