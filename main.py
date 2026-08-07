@@ -59,10 +59,6 @@ async def process_video(message: types.Message):
     else:
         await message.answer("To'g'ri havola kiriting.")
 
-async def main():
-    await dp.start_polling(bot)
-async def handle(request):
-    return web.Response(text="Bot is running!")
 
 async def web_server():
     app = web.Application()
