@@ -16,12 +16,11 @@ dp = Dispatcher()
 
 
 YDL_OPTIONS = {
-    'format': 'bestaudio/best',
+    'format': 'bestaudio',
     'noplaylist': True,
-    'extractaudio': True,
-    'audioformat': 'mp3',
     'outtmpl': '%(id)s.%(ext)s',
 }
+
 
 # Foydalanuvchilar qidirgan natijalarini vaqtincha saqlash uchun lug'at
 user_search_results = {}
