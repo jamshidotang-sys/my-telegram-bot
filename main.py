@@ -20,8 +20,20 @@ YDL_OPTIONS = {
 
 @dp.message(Command("start"))
 async def start_cmd(message: types.Message):
-    await message.answer("Salom! Video havolasini yuboring (Instagram / YouTube).")
-
+    text = (
+        "Assalomu alaykum! 👋\n"
+        "Bu bot orqali Instagram va YouTube'dan video hamda musiqalarni yuklab olishingiz mumkin.\n\n"
+        "Marhamat, havolani yuboring!"
+    )
+    
+    builder = InlineKeyboardBuilder()
+    builder.row(types.InlineKeyboardButton(
+        text="📸 Instagram sahifamiz", 
+        url="https://www.instagram.com/zvw.23?igsh=OGc0eWdpbTd3bGky"
+    ))
+    
+    await message.answer(text, reply_markup=builder.as_markup())
+    
 @dp.message()
 async def process_video(message: types.Message):
     url = message.text
