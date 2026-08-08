@@ -18,7 +18,7 @@ YDL_OPTIONS = {
     'max_filesize': 50 * 1024 * 1024,
 }
 
-@dp.message()
+
 
 @@dp.message(Command("start"))
 async def start_cmd(message: types.Message):
