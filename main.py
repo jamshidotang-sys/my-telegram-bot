@@ -16,11 +16,12 @@ dp = Dispatcher()
 
 
 YDL_OPTIONS = {
-    'format': 'bestaudio',
+    'format': 'bestaudio/best',
     'noplaylist': True,
+    'socket_timeout': 15,
+    'geo_bypass': True,
     'outtmpl': '%(id)s.%(ext)s',
 }
-
 
 # Foydalanuvchilar qidirgan natijalarini vaqtincha saqlash uchun lug'at
 user_search_results = {}
