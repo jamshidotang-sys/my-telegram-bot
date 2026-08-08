@@ -13,7 +13,7 @@ bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
 
-dp = Dispatcher()
+
 
 YDL_OPTIONS = {
     'format': 'bestaudio/best',
