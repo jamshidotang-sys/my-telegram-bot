@@ -41,11 +41,13 @@ async def start_cmd(message: types.Message):
     await message.answer(text, reply_markup=builder.as_markup())
 
 @dp.callback_query(F.data == "check_sub")
-async def check_subscription(callback: types.CallbackQuery):
+@dp.callback_query(F.data == "check_sub")
+async def check_subscriptions(callback: types.CallbackQuery):
     await callback.message.edit_text(
         "Rahmat! Endi Instagram yoki YouTube havolasini yuborishingiz mumkin. 👇"
     )
     await callback.answer()
+    
     "
     
     
