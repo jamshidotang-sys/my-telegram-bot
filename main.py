@@ -51,7 +51,7 @@ async def check_subscriptions(callback: types.CallbackQuery):
     
     
     
-    await message.answer(text, reply_markup=builder.as_markup())
+
 
 @dp.message()
 async def process_message(message: types.Message):
