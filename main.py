@@ -53,7 +53,8 @@ async def check_subscriptions(callback: types.CallbackQuery):
     
 
 
-@dp.message(F.text)
+@dp.message()
+
 async def process_message(message: types.Message):
     url = message.text
     
