@@ -19,10 +19,28 @@ YDL_OPTIONS = {
 }
 
 @dp.message()
+from aiogram.utils.keyboard import InlineKeyboardBuilder
+
+@dp.message(Command("start"))
+async def start_cmd(message: types.Message):
+    text = (
+        "Assalomu alaykum! 👋\n"
+        "Bu bot orqali Instagram va YouTube'dan video hamda musiqalarni yuklab olishingiz mumkin.\n\n"
+        "Marhamat, havolani yuboring!"
+    )
+    
+    builder = InlineKeyboardBuilder()
+    builder.row(types.InlineKeyboardButton(
+        text="📸 Instagram sahifamiz", 
+        url="https://www.instagram.com/zvw.23?igsh=OGc0eWdpbTd3bGky"
+    ))
+    
+    await message.answer(text, reply_markup=builder.as_markup())
+
+@dp.message()
 async def process_message(message: types.Message):
     url = message.text
     
-    # 1. Agar foydalanuvchi havola (link) yuborgan bo'lsa
     if "instagram.com" in url or "youtube.com" in url or "youtu.be" in url:
         status_msg = await message.answer("⏳ Video yuklanmoqda...")
         try:
@@ -32,7 +50,6 @@ async def process_message(message: types.Message):
             
             await status_msg.edit_text("🔍 Musiqa qidirilmoqda...")
             
-            # Videodagi musiqani Shazam orqali topishga harakat qilamiz
             caption_text = "✅ Video yuklab olindi!"
             try:
                 with open(file_path, 'rb') as f:
@@ -45,7 +62,7 @@ async def process_message(message: types.Message):
                             caption_text = f"✅ Video yuklab olindi!\n🎵 Musiqa: {artist} - {title}"
                             break
             except Exception:
-                caption_text = "✅ Video yuklab olindi!\n⚠️ Afsuski musiqa topilmadi."
+                caption_text = f"✅ Video yuklab olindi!\n⚠️ Afsuski musiqa topilmadi."
 
             video_file = types.FSInputFile(file_path)
             await message.answer_video(video=video_file, caption=caption_text)
@@ -55,13 +72,12 @@ async def process_message(message: types.Message):
             await status_msg.delete()
             
         except Exception:
-            await status_msg.exit_text("❌ Xatolik bo'ldi yoki video hajmi 50MB dan katta.") if 'status_msg' in locals() else await message.answer("❌ Xatolik yuz berdi.")
+            await status_msg.edit_text("❌ Xatolik bo'ldi yoki video hajmi 50MB dan katta.")
             
-    # 2. Agar havola emas, shunchaki so'z (qo'shiq nomi) yozilgan bo'lsa
     else:
         status_msg = await message.answer("🔍 Qidirilmoqda...")
         try:
-            query = f"ytsearch10:{url}"  # 10 ta natija qidirish
+            query = f"ytsearch10:{url}"
             with YoutubeDL({'format': 'bestaudio', 'extract_flat': True}) as ydl:
                 results = ydl.extract_info(query, download=False)
                 
@@ -77,18 +93,7 @@ async def process_message(message: types.Message):
             await message.answer("❌ Qidirishda xatolik yuz berdi.")
         
         await status_msg.delete()
-                
-
-            video_file = types.FSInputFile(file_path)
-            await message.answer_video(video=video_file, caption=caption_text)
-
-            if os.path.exists(file_path):
-                os.remove(file_path)
-            await status_msg.delete()
-        except Exception:
-            await status_msg.edit_text("❌ Xatolik bo'ldi yoki video hajmi 50MB dan katta.")
-    else:
-        await message.answer("To'g'ri havola kiriting.")
+    
 
 async def handle(request):
     return web.Response(text="Bot is running!")
