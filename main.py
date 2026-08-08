@@ -7,9 +7,11 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from yt_dlp import YoutubeDL
 from ShazamAPI import Shazam
 
-BOT_TOKEN = "8732653374:AAEwcorFjqEJBNsTkPgLPUZnRN9wv8"
-
 BOT_TOKEN = "8732653374:AAEWcorFjqEJTJBNsTkPgLPUfruNZrN9wv8"
+
+bot = Bot(token=BOT_TOKEN)
+dp = Dispatcher()
+
 
 dp = Dispatcher()
 
