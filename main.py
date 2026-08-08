@@ -48,7 +48,7 @@ async def check_subscriptions(callback: types.CallbackQuery):
     )
     await callback.answer()
     
-    "
+    
     
     
     await message.answer(text, reply_markup=builder.as_markup())
