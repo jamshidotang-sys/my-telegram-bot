@@ -6,7 +6,7 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from yt_dlp import YoutubeDL
 from ShazamAPI import Shazam
-from aiogram.utils.keyboard import InlineKeyboardBuilde
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 BOT_TOKEN = "8732653374:AAEWcorFjqEJTJBNsTkPgLPUfruNZrN9wv8"
 
 bot = Bot(token=BOT_TOKEN)
