@@ -20,7 +20,7 @@ YDL_OPTIONS = {
 
 
 
-@@dp.message(Command("start"))
+@dp.message(Command("start"))
 async def start_cmd(message: types.Message):
     text = (
         "Assalomu alaykum! 👋\n"
