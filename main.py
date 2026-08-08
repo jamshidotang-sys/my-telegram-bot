@@ -9,7 +9,8 @@ from ShazamAPI import Shazam
 
 BOT_TOKEN = "8732653374:AAEwcorFjqEJBNsTkPgLPUZnRN9wv8"
 
-bot = Bot(token=BOT_TOKEN)
+BOT_TOKEN = "8732653374:AAEWcorFjqEJTJBNsTkPgLPUfruNZrN9wv8"
+
 dp = Dispatcher()
 
 YDL_OPTIONS = {
