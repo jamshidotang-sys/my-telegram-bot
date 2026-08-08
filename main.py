@@ -100,11 +100,23 @@ async def process_message(message: types.Message):
                 results = ydl.extract_info(query, download=False)
                 
             if 'entries' in results and results['entries']:
-                text_res = f"🎵 *{url}* bo'yicha topilgan natijalar:\n\n"
-                for i, entry in enumerate(results['entries'], 1):
-                    title = entry.get('title', 'Nomaʼlum')
-                    text_res += f"{i}. {title}\n"
-                await message.answer(text_res, parse_mode="Markdown")
+    text_res = f"🎵 {url} bo'yicha topilgan natijalar:\n\n"
+    
+    # Tugmalar uchun builder ochamiz
+    builder = InlineKeyboardBuilder()
+    
+    for i, entry in enumerate(results['entries'][:5], 1):  # Dastlabki 5 tasini olamiz
+        title = entry.get('title', 'Noma\'lum')
+        text_res += f"{i}. {title}\n"
+        
+        # Har bir musiqa uchun tugma qo'shamiz (callback_data ichida uning havolasi yoki raqami ketadi)
+        builder.button(text=str(i), callback_data=f"dl_{i}")
+    
+    # Tugmalarni qatorlarga 5 tadan joylaymiz
+    builder.adjust(5)
+    
+    await message.answer(text_res, reply_markup=builder.as_markup())
+    text_res, parse_mode="Markdown")
             else:
                 await message.answer("❌ Hech narsa topilmadi.")
         except Exception:
