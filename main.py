@@ -234,8 +234,8 @@ async def process_message(message: types.Message):
     builder.adjust(5)
     
     await message.answer(text_res, reply_markup=builder.as_markup())
-    text_res, parse_mode="Markdown")
-            else:
+    await message.answer(text_res, reply_markup=builder.as_markup(), parse_mode="Markdown")
+
                 await message.answer("❌ Hech narsa topilmadi.")
         except Exception:
             await message.answer("❌ Qidirishda xatolik yuz berdi.")
