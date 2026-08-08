@@ -1,4 +1,5 @@
 from aiohttp import web
+from aiogram import F
 
 import os
 import asyncio
