@@ -20,19 +20,34 @@ YDL_OPTIONS = {
 
 @dp.message()
 
-@dp.message(Command("start"))
+@@dp.message(Command("start"))
 async def start_cmd(message: types.Message):
     text = (
         "Assalomu alaykum! 👋\n"
-        "Bu bot orqali Instagram va YouTube'dan video hamda musiqalarni yuklab olishingiz mumkin.\n\n"
-        "Marhamat, havolani yuboring!"
+        "Botdan foydalanish uchun avval Instagram sahifamizga obuna bo'ling!\n\n"
+        "Obuna bo'lib, pastdagi tugmani bosing:"
     )
     
     builder = InlineKeyboardBuilder()
     builder.row(types.InlineKeyboardButton(
-        text="📸 Instagram sahifamiz", 
+        text="📸 Obuna bo'lish", 
         url="https://www.instagram.com/zvw.23?igsh=OGc0eWdpbTd3bGky"
     ))
+    builder.row(types.InlineKeyboardButton(
+        text="✅ Obuna bo'ldim", 
+        callback_data="check_sub"
+    ))
+    
+    await message.answer(text, reply_markup=builder.as_markup())
+
+@dp.callback_query(F.data == "check_sub")
+async def check_subscription(callback: types.CallbackQuery):
+    await callback.message.edit_text(
+        "Rahmat! Endi Instagram yoki YouTube havolasini yuborishingiz mumkin. 👇"
+    )
+    await callback.answer()
+    "
+    
     
     await message.answer(text, reply_markup=builder.as_markup())
 
