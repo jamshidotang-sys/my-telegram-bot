@@ -100,7 +100,7 @@ async def process_message(message: types.Message):
                 results = ydl.extract_info(query, download=False)
                 
             if 'entries' in results and results['entries']:
-    text_res = f"🎵 {url} bo'yicha topilgan natijalar:\n\n"
+        text_res = f"🎵 {url} bo'yicha topilgan natijalar:\n\n"
     
     # Tugmalar uchun builder ochamiz
     builder = InlineKeyboardBuilder()
